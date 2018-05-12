@@ -5,11 +5,12 @@
   "author": "Robert Mutuleanu",
   "license": "MIT",
   "scripts": {
-    "serve": "node server/server.js",
     "dev-server": "webpack-dev-server --mode development",
     "build:dev": "webpack --mode development",
     "build:prod": "webpack --mode production --env production",
-    "test": "jest"
+    "start": "node server/server.js",
+    "test": "jest",
+    "heroku-postbuild": "yarn run build:prod"
   },
   "dependencies": {
     "babel-core": "6.26.3",
