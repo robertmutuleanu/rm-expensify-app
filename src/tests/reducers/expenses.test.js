@@ -6,6 +6,15 @@ test('should set default state', () => {
     expect(state).toEqual([]);
 });
 
+test('should set expenses', () => {
+    const action = {
+        type: 'SET_EXPENSES',
+        expenses: [expenses[0]]
+    };
+    const state = expensesReducer([expenses[2], expenses[3]], action);
+    expect(state).toEqual([expenses[0]]);
+});
+
 test('should remove expense when found', () => {
     const action = {
         type: 'REMOVE_EXPENSE',
