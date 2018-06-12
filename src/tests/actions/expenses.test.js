@@ -9,6 +9,7 @@ import {
     startAddExpense,
     addExpense,
     editExpense,
+    startEditExpense,
     removeExpense,
     startRemoveExpense
 } from '../../actions/expenses';
@@ -82,6 +83,30 @@ test('should create edit expense action', () => {
             note: 'updated note'
         }
     });
+});
+
+test('should edit expense from db and store', (done) => {
+    const store = createMockStore({});
+    const id = expenses[0].id;
+    const updates = {
+        note: 'updated note'
+    };
+
+    store.dispatch(startEditExpense(id, updates))
+        .then(() => {
+            const actions = store.getActions();
+            expect(actions[0]).toEqual({
+                type: 'EDIT_EXPENSE',
+                id,
+                updates
+            });
+
+            return database.ref(`expenses/${id}`).once('value');
+        })
+        .then((snapshot) => {
+            expect(snapshot.val().note).toBe(updates.note);
+            done();
+        });
 });
 
 test('should create add expense action', () => {
