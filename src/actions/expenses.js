@@ -39,12 +39,12 @@ export const startAddExpense = (expenseData = {}) => {
             amount = 0,
             createdAt = 0
         } = expenseData;
-    
+
         const expense = { description, note, amount, createdAt };
         return database.ref('expenses').push(expense)
-            .then((response) => {
+            .then((res) => {
                 dispatch(addExpense({
-                    id: response.key,
+                    id: res.key,
                     ...expense
                 }));
             })
@@ -58,6 +58,18 @@ export const removeExpense = ({ id }) => ({
     type: 'REMOVE_EXPENSE',
     id
 });
+
+export const startRemoveExpense = ({ id }) => {
+    return (dispatch) => {
+        return database.ref(`expenses/${id}`).remove()
+            .then(() => {
+                dispatch(removeExpense({ id }));
+            })
+            .catch((error) => {
+                console.log('Error: ', error);
+            });
+    };
+};
 
 export const editExpense = (id, updates) => ({
     type: 'EDIT_EXPENSE',
