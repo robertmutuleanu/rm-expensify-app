@@ -1,0 +1,8 @@
+version: '3.6'
+
+services:
+    expensify-front:
+        build: .
+        image: expensify-front
+        ports:
+            - "8080:80"
